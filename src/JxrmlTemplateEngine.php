@@ -10,10 +10,17 @@ use A2Insights\JxrmlTemplateEngine\ValueObjects\RenderRequest;
 
 final class JxrmlTemplateEngine
 {
+    private readonly JxrmlRenderer $renderer;
+
+    private readonly JsonTemplateConfigLoader $configLoader;
+
     public function __construct(
-        private readonly JxrmlRenderer $renderer,
-        private readonly JsonTemplateConfigLoader $configLoader,
-    ) {}
+        ?JxrmlRenderer $renderer = null,
+        ?JsonTemplateConfigLoader $configLoader = null,
+    ) {
+        $this->renderer = $renderer ?? new JxrmlRenderer;
+        $this->configLoader = $configLoader ?? new JsonTemplateConfigLoader;
+    }
 
     /**
      * @param  array<string, mixed>  $parameters

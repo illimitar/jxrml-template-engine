@@ -8,5 +8,7 @@ arch('the engine does not depend on application concerns')
     ->expect('A2Insights\JxrmlTemplateEngine')
     ->not->toUse([
         'Filament',
-        'Illuminate\Database\Eloquent',
+        'Illuminate',
+        'Laravel',
+        'Orchestra',
     ]);
