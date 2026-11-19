@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^8.3",
+        "php": "^7.3 || ^8.0",
         "quilhasoft/jasperphp": "dev-master"
     },
     "require-dev": {
@@ -42,9 +42,6 @@
         "format": "vendor/bin/pint"
     },
     "config": {
-        "platform": {
-            "php": "8.3.0"
-        },
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true

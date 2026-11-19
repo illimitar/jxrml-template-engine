@@ -9,7 +9,12 @@ use ArrayAccess;
 
 class ConfigurableTemplateDataMapper implements TemplateDataMapper
 {
-    public function parameters(mixed $source, array $config): array
+    /**
+     * @param  mixed  $source
+     * @param  array<string, mixed>  $config
+     * @return array<string, mixed>
+     */
+    public function parameters($source, array $config): array
     {
         $parameters = [];
 
@@ -33,7 +38,12 @@ class ConfigurableTemplateDataMapper implements TemplateDataMapper
         return $parameters;
     }
 
-    public function rows(mixed $source, array $config): iterable
+    /**
+     * @param  mixed  $source
+     * @param  array<string, mixed>  $config
+     * @return iterable<int, array<string, mixed>|object>
+     */
+    public function rows($source, array $config): iterable
     {
         $path = $config['datasource']['source'] ?? $config['rows'] ?? null;
 
@@ -50,18 +60,26 @@ class ConfigurableTemplateDataMapper implements TemplateDataMapper
      * Override this method to customize one parameter without replacing the
      * complete mapping algorithm.
      *
+     * @param  mixed  $value
+     * @param  mixed  $source
      * @param  array<string, mixed>  $config
+     * @return mixed
      */
     protected function mapParameter(
         string $name,
-        mixed $value,
-        mixed $source,
-        array $config,
-    ): mixed {
+        $value,
+        $source,
+        array $config
+    ) {
         return $value;
     }
 
-    protected function value(mixed $source, string $path, mixed $default = null): mixed
+    /**
+     * @param  mixed  $source
+     * @param  mixed  $default
+     * @return mixed
+     */
+    protected function value($source, string $path, $default = null)
     {
         if ($path === '') {
             return $source;

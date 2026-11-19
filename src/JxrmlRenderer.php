@@ -16,12 +16,35 @@ use JasperPHP\elements\Report;
 
 final class JxrmlRenderer implements TemplateRenderer
 {
+    /** @var TemplateDataMapper */
+    private $defaultMapper;
+
+    /** @var HtmlParameterSanitizer */
+    private $sanitizer;
+
+    /** @var string|null */
+    private $fontDirectory;
+
+    /** @var string|null */
+    private $processor;
+
+    /**
+     * @param TemplateDataMapper|null $defaultMapper
+     * @param HtmlParameterSanitizer|null $sanitizer
+     * @param string|null $fontDirectory
+     * @param string|null $processor
+     */
     public function __construct(
-        private readonly TemplateDataMapper $defaultMapper = new ConfigurableTemplateDataMapper,
-        private readonly HtmlParameterSanitizer $sanitizer = new HtmlParameterSanitizer,
-        private readonly ?string $fontDirectory = null,
-        private readonly ?string $processor = null,
-    ) {}
+        ?TemplateDataMapper $defaultMapper = null,
+        ?HtmlParameterSanitizer $sanitizer = null,
+        ?string $fontDirectory = null,
+        ?string $processor = null
+    ) {
+        $this->defaultMapper = $defaultMapper ?? new ConfigurableTemplateDataMapper();
+        $this->sanitizer = $sanitizer ?? new HtmlParameterSanitizer();
+        $this->fontDirectory = $fontDirectory;
+        $this->processor = $processor;
+    }
 
     public function render(RenderRequest $request): string
     {
@@ -35,7 +58,7 @@ final class JxrmlRenderer implements TemplateRenderer
 
         $mapper = $request->mapper ?? $this->defaultMapper;
         $mappedParameters = $mapper->parameters($request->source, $request->config);
-        $parameters = [...$mappedParameters, ...$request->parameters];
+        $parameters = array_merge($mappedParameters, $request->parameters);
         $parameters = $this->sanitizer->sanitize($template, $parameters);
 
         $rows = $request->rows ?? $mapper->rows($request->source, $request->config);

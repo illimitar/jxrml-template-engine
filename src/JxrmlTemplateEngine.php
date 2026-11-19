@@ -10,41 +10,49 @@ use A2Insights\JxrmlTemplateEngine\ValueObjects\RenderRequest;
 
 final class JxrmlTemplateEngine
 {
-    private readonly JxrmlRenderer $renderer;
+    /** @var JxrmlRenderer */
+    private $renderer;
 
-    private readonly JsonTemplateConfigLoader $configLoader;
+    /** @var JsonTemplateConfigLoader */
+    private $configLoader;
 
+    /**
+     * @param JxrmlRenderer|null $renderer
+     * @param JsonTemplateConfigLoader|null $configLoader
+     */
     public function __construct(
         ?JxrmlRenderer $renderer = null,
-        ?JsonTemplateConfigLoader $configLoader = null,
+        ?JsonTemplateConfigLoader $configLoader = null
     ) {
-        $this->renderer = $renderer ?? new JxrmlRenderer;
-        $this->configLoader = $configLoader ?? new JsonTemplateConfigLoader;
+        $this->renderer = $renderer ?? new JxrmlRenderer();
+        $this->configLoader = $configLoader ?? new JsonTemplateConfigLoader();
     }
 
     /**
+     * @param  mixed  $source
+     * @param  string|array|null  $config
      * @param  array<string, mixed>  $parameters
      * @param  null|iterable<int, array<string, mixed>|object>  $rows
      */
     public function render(
         string $template,
-        mixed $source = null,
-        string|array|null $config = null,
+        $source = null,
+        $config = null,
         ?TemplateDataMapper $mapper = null,
         array $parameters = [],
-        ?iterable $rows = null,
+        ?iterable $rows = null
     ): string {
         $resolvedConfig = is_string($config)
             ? $this->configLoader->load($config)
             : ($config ?? []);
 
         return $this->renderer->render(new RenderRequest(
-            template: $template,
-            source: $source,
-            config: $resolvedConfig,
-            mapper: $mapper,
-            parameters: $parameters,
-            rows: $rows,
+            $template,
+            $source,
+            $resolvedConfig,
+            $mapper,
+            $parameters,
+            $rows
         ));
     }
 }

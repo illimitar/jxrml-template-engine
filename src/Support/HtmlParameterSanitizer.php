@@ -29,7 +29,7 @@ final class HtmlParameterSanitizer
      */
     private function htmlParameterNames(string $template): array
     {
-        $dom = new DOMDocument;
+        $dom = new DOMDocument();
         $previous = libxml_use_internal_errors(true);
         $loaded = $dom->load($template, LIBXML_NONET);
         libxml_clear_errors();
@@ -45,7 +45,7 @@ final class HtmlParameterSanitizer
 
         foreach ($xpath->query($query) ?: [] as $expression) {
             preg_match_all('/\\$P\\{([A-Za-z0-9_]+)\\}/', $expression->textContent, $matches);
-            $names = [...$names, ...$matches[1]];
+            $names = array_merge($names, $matches[1]);
         }
 
         return array_values(array_unique($names));

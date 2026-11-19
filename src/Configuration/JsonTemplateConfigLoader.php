@@ -23,7 +23,8 @@ final class JsonTemplateConfigLoader
         } catch (JsonException $exception) {
             throw new InvalidTemplateConfiguration(
                 "Invalid template configuration at {$path}: {$exception->getMessage()}",
-                previous: $exception,
+                0,
+                $exception
             );
         }
 
