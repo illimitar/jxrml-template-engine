@@ -15,9 +15,15 @@
             "role": "Developer"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/illimitar/JasperPHP"
+        }
+    ],
     "require": {
         "php": "^7.3 || ^8.0",
-        "quilhasoft/jasperphp": "dev-master"
+        "quilhasoft/jasperphp": "dev-illi"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
