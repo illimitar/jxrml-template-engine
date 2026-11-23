@@ -18,7 +18,8 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/illimitar/JasperPHP"
+            "url": "https://github.com/illimitar/JasperPHP",
+            "no-api": true
         }
     ],
     "require": {
